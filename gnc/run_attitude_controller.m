@@ -6,19 +6,29 @@ mass  = x_curr(13);
 theta = x_curr(8);
 q     = x_curr(11);
 
-% --- 1. Total Thrust Vector Magnitude ---
-% When pitched, you lose vertical lift. We must command the hypotenuse
-% of the required X and Z accelerations to maintain altitude.
-% (Negative because Body Z points down, so we need negative Fz to pull up)
-desired_Fz = -mass * norm([cmd_x, cmd_z]);
-
-% --- 2. Pitch Angle Command & Limits ---
+% --- 1. Pitch Angle Command & Limits ---
+% Compute the pitch needed to vector thrust toward the guidance command, then
+% clamp BEFORE computing the force magnitude so the two are always consistent.
 desired_theta = atan2(-cmd_x, -cmd_z);
 
 % Limit the pitch angle to +/- 30 degrees to prevent flipping over
 % and completely losing vertical lift authority.
 max_pitch = deg2rad(30);
 desired_theta = max(-max_pitch, min(max_pitch, desired_theta));
+
+% --- 2. Total Thrust Vector Magnitude ---
+% Size the total body-Z force so that its Z-projection (after pitching to
+% desired_theta) exactly delivers the commanded NED-Z acceleration.
+% This is altitude-priority: when pitch is saturated at ±30°, we accept
+% reduced X authority rather than over-thrusting in Z.
+%
+%   desired_Fz * cos(desired_theta) = mass * cmd_z
+%   => desired_Fz = mass * cmd_z / cos(desired_theta)
+%
+% When pitch is NOT saturated this is algebraically identical to the
+% original -mass*norm([cmd_x, cmd_z]) formula.
+% (Negative desired_Fz = upward body force, consistent with Body-Z pointing down.)
+desired_Fz = mass * cmd_z / cos(desired_theta);
 
 % --- 3. Dynamic Inversion PD Controller ---
 % Instead of raw Nm gains, we tune for Angular Acceleration (alpha)
