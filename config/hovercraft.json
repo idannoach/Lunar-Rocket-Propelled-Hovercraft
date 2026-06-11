@@ -1,0 +1,30 @@
+{
+    "mCG": [0, 0, 0.22]
+    ,"kgTotalMass": 60
+    ,"kgFuelMass": 30
+    ,"kgsqmIxx":{
+        "max": 2.1
+        ,"min": 1.8
+    }
+    ,"kgsqmIyy":{
+        "max": 3.3
+        ,"min": 2.3
+    }
+    ,"kgsqmIzz":{
+        "max": 5
+        ,"min": 3.5
+    }
+    ,"newtonMaxThrust": 20
+    ,"gpsecMaxPropFlowRate": 7
+    ,"pctThrottleRange": [40,100]
+    ,"secIsp": 285
+    ,"msecResponseTime": 10
+    ,"msecResponseTo90PctThrustTime": 50
+    ,"newtonsecMinImpulseBit": 5
+    ,"pctPwmDeadband": 2
+    ,"nEngines": 6
+    ,"degEngineRadialAngle": 60
+    ,"mEngineRadialPos": 0.6
+    ,"mEngineAxialPos": 0.25
+    ,"degThrustRadialAngle": 15
+}

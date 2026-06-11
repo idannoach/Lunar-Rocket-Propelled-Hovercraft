@@ -1,0 +1,9 @@
+function GP = GP()
+% GP - Global Parameters containing Planetary & Environmental Constants
+
+GP = struct(...
+    'g0', 9.80665 ...
+    ,'g_lunar', 1.625 ... 
+    );
+
+end

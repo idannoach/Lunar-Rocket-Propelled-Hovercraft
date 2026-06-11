@@ -1,0 +1,10 @@
+{
+    "mInitialPosition" : [0, 0, 0]
+    ,"mpsInitialVelocity" : [0, 0, 0]
+    ,"radEulerAngles" : [0, 0, 0]
+    ,"radpsecRates" : [0, 0, 0]
+    ,"sFinalSimulationTime" : 350
+    ,"mTargetPosition": [25000, 0, 4000]
+    ,"ieSimulationType": "discrete"
+    ,"hzControllerRate": 0.02
+}
