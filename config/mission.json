@@ -6,5 +6,5 @@
     ,"sFinalSimulationTime" : 350
     ,"mTargetPosition": [25000, 0, 4000]
     ,"ieSimulationType": "discrete"
-    ,"hzControllerRate": 0.02
+    ,"hzControllerRate": 50
 }
