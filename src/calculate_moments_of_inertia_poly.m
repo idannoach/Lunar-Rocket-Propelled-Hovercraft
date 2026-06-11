@@ -14,7 +14,15 @@ m_full = hovercraft_parameters.kgTotalMass;
 m_empty = hovercraft_parameters.kgTotalMass - hovercraft_parameters.kgFuelMass;
 
 % Mass difference for the slope calculation
-delta_m = m_full - m_empty;
+delta_m = m_full - m_empty;  % equals kgFuelMass
+
+% Guard: if there is no fuel, the polynomial slopes are undefined (division by zero).
+% All inertia values would become NaN, corrupting the entire simulation.
+if delta_m == 0
+    error('calculate_moments_of_inertia_poly:ZeroFuelMass', ...
+        ['kgFuelMass is zero — cannot compute inertia polynomial slopes (division by zero). ' ...
+         'Set kgFuelMass > 0 or define constant inertia values directly.']);
+end
 
 %% Calculate Polynomial for Ixx (Roll)
 slope_x = (hovercraft_parameters.kgsqmIxx.max - hovercraft_parameters.kgsqmIxx.min) / delta_m;
