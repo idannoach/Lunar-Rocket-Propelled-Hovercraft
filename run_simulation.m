@@ -13,7 +13,9 @@ elseif strcmp(mission_parameters.ieSimulationType, 'discrete')
     disp('Starting Discrete Simulation...');
     [t_out, x_out] = run_discrete_simulation(x0, global_parameters, mission_parameters, hovercraft_parameters);
 else
-    error('No matching simulation type in the config file');
+    error('run_simulation:UnknownType', ...
+        'Unknown ieSimulationType: "%s". Expected "continuous" or "discrete".', ...
+        mission_parameters.ieSimulationType);
 end
 disp('Simulation Complete!');
 
