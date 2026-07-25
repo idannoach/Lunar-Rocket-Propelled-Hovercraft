@@ -1,4 +1,4 @@
-function [throttles, engine_on_timers, command_buffer, fuel_exhausted] = control_module(t_curr, dt, x0, cmd_n, cmd_w, cmd_u, engine_on_timers, command_buffer, fuel_exhausted, hovercraft_parameters, is6DOF)
+function [throttles, engine_on_timers, command_buffer, fuel_exhausted] = control_module(t_curr, dt, x0, cmd_n, cmd_w, cmd_u, engine_on_timers, command_buffer, fuel_exhausted, hovercraft_parameters)
 
 % Run attitude PD controller
 [desired_Fz, desired_My] = run_attitude_controller(x0, cmd_n, cmd_u, hovercraft_parameters);

@@ -1,3 +1,8 @@
 *.asv
 *.log
 *.tex
+
+# FALCON.m compiled derivative cache (regenerated on next Bake())
+*.mexw64
+fm_models/
+fm_constraints/

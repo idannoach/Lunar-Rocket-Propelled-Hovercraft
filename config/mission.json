@@ -25,6 +25,6 @@
     ,"mIntermediatePointPosition": [0, 0, 0]
     ,"sIntermediatePointTime": 350
 
-    ,"isRunBenchmark": [true,false,false]
+    ,"isRunBenchmark": [true,true,true]
 	,"isRunFullSim": true
 }

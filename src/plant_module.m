@@ -1,4 +1,4 @@
-function x0 = plant_module(dt, x0, throttles, global_parameters, hovercraft_parameters, is6DOF)
+function x0 = plant_module(dt, x0, throttles, global_parameters, hovercraft_parameters)
 
 % Engine time constant
 tau = (hovercraft_parameters.msecResponseTo90PctThrustTime / 1000) / 2.3;

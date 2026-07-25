@@ -44,12 +44,6 @@ converged_b = local_is_converged(result_b);
 label_a_disp = local_decorate_label(label_a, converged_a);
 label_b_disp = local_decorate_label(label_b, converged_b);
 
-
-fprintf('\n============================================================\n');
-fprintf('MISSIONS 1-2: Basic point-mass LQ law (no intermediate point)\n');
-fprintf('============================================================\n');
-
-
 if ~converged_a
     fprintf('WARNING: "%s" did NOT converge (exit status: %s) - treat this trajectory as unreliable, not a valid benchmark.\n', ...
         label_a, result_a.exit_status);
