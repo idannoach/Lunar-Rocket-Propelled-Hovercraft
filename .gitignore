@@ -1,6 +1,7 @@
 *.asv
 *.log
 *.tex
+.claude/
 
 # FALCON.m compiled derivative cache (regenerated on next Bake())
 *.mexw64
