@@ -1,0 +1,30 @@
+{
+    "mInitialPosition" : [0, 0, 0]
+    ,"mpsInitialVelocity" : [0, 0, 0]
+    ,"radEulerAngles" : [0, 0, 0]
+    ,"radpsecRates" : [0, 0, 0]
+    ,"sFinalSimulationTime" : 450
+    ,"mTargetPosition": [25000, 0, -4000]
+    ,"ieSimulationType": "discrete"
+    ,"hzControllerRate": 50
+    ,"mPositionErrorTolerance": 10.0
+    ,"mpsVelocityErrorTolerance": 0.5
+    ,"radPitchErrorTolerance": 0.1
+    ,"sTimeStepIncrement": 10.0
+    ,"sMinTimeStepIncrement": 0.1
+    ,"iMaxTfIterations": 100
+
+    ,"bUseIntermediatePoint": true
+    ,"alphaFinalPositionWeights": [1, 1, 10]
+    ,"betaFinalVelocityWeights": [10, 10, 100]
+    ,"gammaIntermediatePositionWeights": [0.2, 0.2, 2]
+    ,"mApproachConeRadius": 1500
+    ,"mApproachConeHeight": 1000
+    ,"mConeHeightIncrement": 200
+    ,"iMaxConeHeightIterations": 10
+    ,"mIntermediatePointPosition": [0, 0, 0]
+    ,"sIntermediatePointTime": 350
+
+    ,"isRunBenchmark": [true,false,false]
+	,"isRunFullSim": true
+}
