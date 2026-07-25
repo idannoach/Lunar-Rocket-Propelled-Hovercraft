@@ -121,9 +121,10 @@ if mission_parameters.isRunFullSim
         log_results(falcon_out.t, falcon_out.x, mission_parameters, 'logs', 'Mission 6 - FALCON min-fuel (final project mission)', ...
             local_falcon_note(falcon_out));
         visualization(hovercraft_parameters, mission_parameters, t_out, x_out, falcon_out);
+    else
+        visualization(hovercraft_parameters, mission_parameters, t_out, x_out);
     end
     log_results(t_out, x_out, mission_parameters, 'logs', 'Mission 5 - Final project mission (full 6-DOF)');
-    visualization(hovercraft_parameters, mission_parameters, t_out, x_out);
 end
 
 end
