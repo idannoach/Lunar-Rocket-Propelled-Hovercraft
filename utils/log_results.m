@@ -1,6 +1,6 @@
-function log_results(t_out, x_out, mission_parameters, log_folder, mission_label, notes)
-% log_results - Generates a timestamped text file containing terminal
-%               performance metrics for a simulation/mission run.
+function log_results(t_out, x_out, mission_parameters, log_file, mission_label, notes)
+% log_results - Appends terminal performance metrics for a simulation/
+%               mission run to a single shared log file.
 %
 % Inputs:
 %   t_out              - Time history array
@@ -16,14 +16,15 @@ function log_results(t_out, x_out, mission_parameters, log_folder, mission_label
 %                         6-DOF runs and its point-mass benchmark missions
 %                         can be logged with the same function.
 %   mission_parameters - Struct containing the target waypoint
-%   log_folder         - (Optional) Directory to save the log. Defaults to current directory.
+%   log_file           - (Optional) Full path of the log file to append
+%                         to. Defaults to 'sim_run.log' in the current
+%                         directory. All missions in a run share the same
+%                         file (see main.m), each appended as its own
+%                         section.
 %   mission_label       - (Optional) Short identifier for this run (e.g.
 %                         "Mission 1 - LQ (no intermediate point)"),
-%                         included in both the filename and the report
-%                         header so multiple missions logged in the same
-%                         second (see main.m, which now logs all 6
-%                         missions per run) don't collide/overwrite each
-%                         other's files.
+%                         included in the section header so missions
+%                         logged to the same file are distinguishable.
 %   notes               - (Optional) Free-text line appended near the top
 %                         of the report (e.g. a FALCON.m solver
 %                         convergence warning) - see
@@ -31,8 +32,8 @@ function log_results(t_out, x_out, mission_parameters, log_folder, mission_label
 %                         result.converged/.exit_status.
 
 %% 1. Handle File Paths & Naming
-if nargin < 4 || isempty(log_folder)
-    log_folder = pwd;
+if nargin < 4 || isempty(log_file)
+    log_file = fullfile(pwd, 'sim_run.log');
 end
 if nargin < 5
     mission_label = '';
@@ -41,21 +42,13 @@ if nargin < 6
     notes = '';
 end
 
-% Create the folder if it doesn't exist
-if ~exist(log_folder, 'dir')
+% Create the containing folder if it doesn't exist
+log_folder = fileparts(log_file);
+if ~isempty(log_folder) && ~exist(log_folder, 'dir')
     mkdir(log_folder);
 end
 
-% Generate a unique timestamped filename, slugging in the mission label (if
-% given) so missions logged within the same second don't overwrite each other.
-timestamp = datestr(now, 'HH-MM-SS_dd-mm-yyyy');
-if isempty(mission_label)
-    filename = fullfile(log_folder, sprintf('sim_run_%s.log', timestamp));
-else
-    slug = regexprep(lower(mission_label), '[^a-z0-9]+', '_');
-    slug = regexprep(slug, '(^_+|_+$)', '');
-    filename = fullfile(log_folder, sprintf('sim_run_%s_%s.log', slug, timestamp));
-end
+filename = log_file;
 
 %% 2. Extract Terminal Data
 is_point_mass = size(x_out, 2) == 7;
@@ -89,13 +82,13 @@ has_intermediate_point = isfield(mission_parameters, 'bUseIntermediatePoint') &&
     && isfield(mission_parameters, 'gammaIntermediatePositionWeights') && any(mission_parameters.gammaIntermediatePositionWeights ~= 0);
 
 %% 4. Write to File
-fid = fopen(filename, 'w');
+fid = fopen(filename, 'a');
 if fid == -1
     error('log_results:CannotOpenFile', 'Could not open log file for writing at %s', filename);
 end
 
 % Header
-fprintf(fid, '======================================================\n');
+fprintf(fid, '\n======================================================\n');
 if is_point_mass
     fprintf(fid, '          POINT-MASS MISSION LOG\n');
 else
@@ -146,6 +139,6 @@ end
 fclose(fid);
 
 % Notify the user in the command window
-fprintf('Run metrics successfully logged to: %s\n', filename);
+fprintf('Run metrics for %s appended to: %s\n', mission_label, filename);
 
 end

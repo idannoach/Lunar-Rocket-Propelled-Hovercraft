@@ -4,6 +4,9 @@ MUTE_FALCON_OUTPUT = true; % suppress FALCON.m/IPOPT command-window output (lice
 
 [global_parameters, hovercraft_parameters, mission_parameters] = startup();
 
+% Single shared log file for every mission logged during this run
+log_file = fullfile('logs', sprintf('sim_run_%s.log', datestr(now, 'HH-MM-SS_dd-mm-yyyy')));
+
 %% ===================================================================================
 %% Missions 1-2: basic point-mass LQ/ZEM-ZEV law (min. fuel) (no intermediate point) vs. FALCON.m
 %% ===================================================================================
@@ -41,8 +44,8 @@ if mission_parameters.isRunBenchmark(1)
         basic_point_mass_falcon_out, 'FALCON no intermediate point', 'Missions 1-2');
 
     % Log
-    log_results(basic_point_mass_t_out, basic_point_mass_x_out, point_mass_mission_parameters, 'logs', 'Mission 1 - LQ no intermediate point');
-    log_results(basic_point_mass_falcon_out.t, basic_point_mass_falcon_out.x, point_mass_mission_parameters, 'logs', 'Mission 2 - FALCON no intermediate point', ...
+    log_results(basic_point_mass_t_out, basic_point_mass_x_out, point_mass_mission_parameters, log_file, 'Mission 1 - LQ no intermediate point');
+    log_results(basic_point_mass_falcon_out.t, basic_point_mass_falcon_out.x, point_mass_mission_parameters, log_file, 'Mission 2 - FALCON no intermediate point', ...
         local_falcon_note(basic_point_mass_falcon_out));
 
 end
@@ -78,8 +81,8 @@ if mission_parameters.isRunBenchmark(2)
         basic_point_mass_falcon_out, 'FALCON with an intermediate point', 'Missions 3-4');
 
     % Log
-    log_results(basic_point_mass_t_out, basic_point_mass_x_out, point_mass_mission_parameters, 'logs', 'Mission 3 - LQ with intermediate point');
-    log_results(basic_point_mass_falcon_out.t, basic_point_mass_falcon_out.x, point_mass_mission_parameters, 'logs', 'Mission 4 - FALCON with intermediate point', ...
+    log_results(basic_point_mass_t_out, basic_point_mass_x_out, point_mass_mission_parameters, log_file, 'Mission 3 - LQ with intermediate point');
+    log_results(basic_point_mass_falcon_out.t, basic_point_mass_falcon_out.x, point_mass_mission_parameters, log_file, 'Mission 4 - FALCON with intermediate point', ...
         local_falcon_note(basic_point_mass_falcon_out));
 end
 
@@ -118,13 +121,13 @@ if mission_parameters.isRunFullSim
             calculate_miss_distance(x_out, mission_parameters.mTargetPosition), ...
             norm(falcon_out.x(end, 1:3) - mission_parameters.mTargetPosition(:)'));
         
-        log_results(falcon_out.t, falcon_out.x, mission_parameters, 'logs', 'Mission 6 - FALCON min-fuel (final project mission)', ...
+        log_results(falcon_out.t, falcon_out.x, mission_parameters, log_file, 'Mission 6 - FALCON min-fuel (final project mission)', ...
             local_falcon_note(falcon_out));
         visualization(hovercraft_parameters, mission_parameters, t_out, x_out, falcon_out);
     else
         visualization(hovercraft_parameters, mission_parameters, t_out, x_out);
     end
-    log_results(t_out, x_out, mission_parameters, 'logs', 'Mission 5 - Final project mission (full 6-DOF)');
+    log_results(t_out, x_out, mission_parameters, log_file, 'Mission 5 - Final project mission (full 6-DOF)');
 end
 
 end
